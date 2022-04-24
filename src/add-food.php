@@ -12,12 +12,36 @@ if (isset($_POST['food']) && isset($_POST['calorie'])){
     $food_data = json_decode( file_get_contents($api_url),true);
     //if its not in ingredients just menu list
     if($food_data['results'] == null){
-        $food_name = "null";
-        $food_calorie = 1;
-        $food_protein = 0;
-        $food_carb = 0;
-        $food_fat = 0;
-        $food_sat = 0;
+        $api_url = "https://api.spoonacular.com/food/menuItems/search?apiKey=ceabb584829847a0820cb61a92afdf62&query=" .$food. "&number=1&sortDirection=desc";
+        $food_data = json_decode( file_get_contents($api_url),true);
+        $food_name = $food_data['menuItems'][0]['title'];
+
+        //fetcches data of the autocompleted menu item
+        $food_id = $food_data['menuItems'][0]['id'];
+        $api_url_ingredient = "https://api.spoonacular.com/food/menuItems/".$food_id."?apiKey=ceabb584829847a0820cb61a92afdf62";
+        $ingredient_data = json_decode( file_get_contents($api_url_ingredient),true);
+        $length = count($ingredient_data['nutrition']['nutrients']);
+        $food_price = $ingredient_data['price'];
+
+        //loops and stores macro nutrients of inputted food
+        for($x = 0; $x < $length; $x++){
+            if($ingredient_data['nutrition']['nutrients'][$x]['name'] == "Calories"){
+                $food_calorie = $ingredient_data['nutrition']['nutrients'][$x]['amount'];
+            }
+            if($ingredient_data['nutrition']['nutrients'][$x]['name'] == "Protein"){
+                $food_protein = $ingredient_data['nutrition']['nutrients'][$x]['amount'];
+            }
+            if($ingredient_data['nutrition']['nutrients'][$x]['name'] == "Carbohydrates"){
+                $food_carb = $ingredient_data['nutrition']['nutrients'][$x]['amount'];
+            }
+            if($ingredient_data['nutrition']['nutrients'][$x]['name'] == "Fat"){
+                $food_fat = $ingredient_data['nutrition']['nutrients'][$x]['amount'];
+            }
+            if($ingredient_data['nutrition']['nutrients'][$x]['name'] == "Saturated Fat"){
+                $food_sat = $ingredient_data['nutrition']['nutrients'][$x]['amount'];
+            }
+        }
+
     }
     //sets food name from the ingredients list
     else{
