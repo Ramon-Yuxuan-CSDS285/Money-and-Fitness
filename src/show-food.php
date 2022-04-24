@@ -12,8 +12,8 @@ if (mysqli_num_rows($result) > 0) {
 ?>
 
 <li>
-    <span class="text"><?php echo $row['foodName']; ?></span>
-    <span class="text"><?php echo "calorie: " .$row['calorie']. "g"; ?></span>
+    <span class="text"><?php echo "" .$row['servings']. " " .$row['foodName']. "" ; ?></span>
+    <span class="text"><?php echo "calorie: " .$row['calorie']. ""; ?></span>
     <span class="text"><?php echo "protein: " .$row['protein']. "g"; ?></span>
     <span class="text"><?php echo "carbohydrate: " .$row['carb']. "g"; ?></span>
     <span class="text"><?php echo "fat: " .$row['fat']. "g"; ?></span>

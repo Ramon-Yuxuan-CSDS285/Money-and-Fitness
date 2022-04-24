@@ -79,7 +79,7 @@ if (isset($_POST['food']) && isset($_POST['servings'])){
     
 
     if ($food_name != "" && $food_calorie != 0){
-        $sql = "INSERT INTO food (foodName,calorie,protein,carb,fat,saturated_fat) VALUES ('$food_name','$food_calorie','$food_protein','$food_carb','$food_fat','$food_sat')";
+        $sql = "INSERT INTO food (foodName,calorie,protein,carb,fat,saturated_fat,servings) VALUES ('$food_name','$food_calorie','$food_protein','$food_carb','$food_fat','$food_sat','$servings')";
         $result = mysqli_query($conn, $sql);
         if ($result) {
             echo 1;
