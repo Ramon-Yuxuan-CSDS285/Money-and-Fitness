@@ -3,7 +3,7 @@
 $server = "localhost";
 $username = "root";
 $password = "";
-$database = "storage";
+$database = "task_app";
 
 $conn = mysqli_connect($server, $username, $password, $database);
 

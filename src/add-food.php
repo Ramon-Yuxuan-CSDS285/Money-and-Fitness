@@ -5,8 +5,57 @@ include 'config.php';
 if (isset($_POST['food']) && isset($_POST['calorie'])){
     $food = $_POST['food'];
     $calorie = $_POST['calorie'];
-    if ($food != "" && $calorie != 0){
-        $sql = "INSERT INTO food (foodName,calorie) VALUES ('$food','$calorie')";
+    $price = $_POST['price'];
+
+    //fetches data of names of possible foods
+    $api_url = "https://api.spoonacular.com/food/ingredients/search?apiKey=ceabb584829847a0820cb61a92afdf62&query=" .$food. "&number=1&sortDirection=desc";
+    $food_data = json_decode( file_get_contents($api_url),true);
+    //if its not in ingredients just menu list
+    if($food_data['results'] == null){
+        $food_name = "null";
+        $food_calorie = 1;
+        $food_protein = 0;
+        $food_carb = 0;
+        $food_fat = 0;
+        $food_sat = 0;
+    }
+    //sets food name from the ingredients list
+    else{
+        $food_name = $food_data['results'][0]['name'];
+
+        //fetches data of the autocompleted food
+        $food_id = $food_data['results'][0]['id'];
+        $api_url_ingredient = "https://api.spoonacular.com/food/ingredients/".$food_id."/information?apiKey=ceabb584829847a0820cb61a92afdf62&amount=1";
+        $ingredient_data = json_decode( file_get_contents($api_url_ingredient),true);
+        $length = count($ingredient_data['nutrition']['nutrients']);
+        $food_price = $ingredient_data['estimatedCost']['value'];
+
+        //loops and stores macro nutrients of inputted food
+        for($x = 0; $x < $length; $x++){
+            if($ingredient_data['nutrition']['nutrients'][$x]['name'] == "Calories"){
+                $food_calorie = $ingredient_data['nutrition']['nutrients'][$x]['amount'];
+            }
+            if($ingredient_data['nutrition']['nutrients'][$x]['name'] == "Protein"){
+                $food_protein = $ingredient_data['nutrition']['nutrients'][$x]['amount'];
+            }
+            if($ingredient_data['nutrition']['nutrients'][$x]['name'] == "Carbohydrates"){
+                $food_carb = $ingredient_data['nutrition']['nutrients'][$x]['amount'];
+            }
+            if($ingredient_data['nutrition']['nutrients'][$x]['name'] == "Fat"){
+                $food_fat = $ingredient_data['nutrition']['nutrients'][$x]['amount'];
+            }
+            if($ingredient_data['nutrition']['nutrients'][$x]['name'] == "Saturated Fat"){
+                $food_sat = $ingredient_data['nutrition']['nutrients'][$x]['amount'];
+            }
+        }
+    }
+    
+
+
+    
+
+    if ($food_name != "" && $food_calorie != 0){
+        $sql = "INSERT INTO food (foodName,calorie,protein,carb,fat,saturated_fat) VALUES ('$food_name','$food_calorie','$food_protein','$food_carb','$food_fat','$food_sat')";
         $result = mysqli_query($conn, $sql);
         if ($result) {
             echo 1;
@@ -17,6 +66,8 @@ if (isset($_POST['food']) && isset($_POST['calorie'])){
     else {
         echo 0;
     }
+    $sql = "INSERT INTO tasks (title,num) VALUES ('$food_name','$food_price')";
+    $result = mysqli_query($conn, $sql);
 }else {
     echo 0;
 }

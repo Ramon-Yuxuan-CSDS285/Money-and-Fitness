@@ -4,9 +4,10 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+	<link rel="stylesheet" type="text/css" href="index.css">
+
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	
-	<link rel="stylesheet" type="text/css" href="index.css">
 
 	<title>Todo List App - Pure Coding</title>
 </head>
@@ -32,6 +33,7 @@
 			<form class="foodList">
 				<input type="text" id="typeOfFood" placeholder="Enter Name of Food">
 				<input type="number" id="calorie" placeholder="Enter the amount of calories">
+				<input type="number" id="price" placeholder="Enter the cost">
 				<br>
 				<button type="submit" id="submitFoodList" class="btn">Submit</button>
 			</form>
@@ -45,8 +47,13 @@
 			<div id="calorieSum">
 
 			</div>
+			<div id="erase">
+				<button type="reset" id="resetFoodList" class="btn">Delete</button>
+			</div>
 		</div>
 	</div>
+	<a href="Budget/budget.html">Budget</a>
+	
 
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script>
@@ -82,11 +89,12 @@
 
 				var calorie = $("#calorie").val();
 				var typeOfFood = $("#typeOfFood").val();
+				var price = $("#price").val();
 
 				$.ajax({
 					url: "add-food.php",
 					type: "POST",
-					data: {food : typeOfFood, calorie: calorie},
+					data: {food : typeOfFood, calorie: calorie, price: price},
 					success: function(data) {
 						loadEverything();
 						$("#calorie").val('');
@@ -94,6 +102,20 @@
 						if (data == 0) {
 							alert("Something wrong went. Please try again.");
 						}
+					}
+				});
+			});
+
+			// Add Task
+			$("#resetFoodList").on("click", function(e) {
+				e.preventDefault();
+
+				$.ajax({
+					url: "reset-food.php",
+					type: "POST",
+					data: {},
+					success: function(data) {
+						loadEverything();
 					}
 				});
 			});

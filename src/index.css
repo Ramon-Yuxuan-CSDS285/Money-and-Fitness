@@ -88,6 +88,22 @@ body {
   transition: 0.3s;
 }
 
+.wrapper .content button.btn {
+  width: 50%;
+  height: 100%;
+  background: #6c5ce7;
+  color: #fff;
+  outline: none;
+  border: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  font-size: 1rem;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: 0.3s;
+}
+
+
 .wrapper .inputFields button.btn:hover {
   opacity: 1;
 }
