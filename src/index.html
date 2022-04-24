@@ -32,7 +32,7 @@
 		<div class="inputFields">
 			<form class="foodList">
 				<input type="text" id="typeOfFood" placeholder="Enter Name of Food">
-				<input type="number" id="calorie" placeholder="Enter the amount of calories">
+				<input type="number" id="servings" placeholder="Enter the amount of servings">
 				<input type="number" id="price" placeholder="Enter the cost">
 				<br>
 				<button type="submit" id="submitFoodList" class="btn">Submit</button>
@@ -87,17 +87,17 @@
 			$("#submitFoodList").on("click", function(e) {
 				e.preventDefault();
 
-				var calorie = $("#calorie").val();
+				var servings = $("#servings").val();
 				var typeOfFood = $("#typeOfFood").val();
 				var price = $("#price").val();
 
 				$.ajax({
 					url: "add-food.php",
 					type: "POST",
-					data: {food : typeOfFood, calorie: calorie, price: price},
+					data: {food : typeOfFood, servings: servings, price: price},
 					success: function(data) {
 						loadEverything();
-						$("#calorie").val('');
+						$("#servings").val('');
 						$("#typeOfFood").val('');
 						if (data == 0) {
 							alert("Something wrong went. Please try again.");

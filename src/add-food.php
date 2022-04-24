@@ -2,9 +2,9 @@
 
 include 'config.php';
 
-if (isset($_POST['food']) && isset($_POST['calorie'])){
+if (isset($_POST['food']) && isset($_POST['servings'])){
     $food = $_POST['food'];
-    $calorie = $_POST['calorie'];
+    $servings = $_POST['servings'];
     $price = $_POST['price'];
 
     //fetches data of names of possible foods
@@ -49,7 +49,7 @@ if (isset($_POST['food']) && isset($_POST['calorie'])){
 
         //fetches data of the autocompleted food
         $food_id = $food_data['results'][0]['id'];
-        $api_url_ingredient = "https://api.spoonacular.com/food/ingredients/".$food_id."/information?apiKey=ceabb584829847a0820cb61a92afdf62&amount=1";
+        $api_url_ingredient = "https://api.spoonacular.com/food/ingredients/".$food_id."/information?apiKey=ceabb584829847a0820cb61a92afdf62&amount=" .$servings. "";
         $ingredient_data = json_decode( file_get_contents($api_url_ingredient),true);
         $length = count($ingredient_data['nutrition']['nutrients']);
         $food_price = $ingredient_data['estimatedCost']['value'];
@@ -90,7 +90,7 @@ if (isset($_POST['food']) && isset($_POST['calorie'])){
     else {
         echo 0;
     }
-    $sql = "INSERT INTO tasks (title,num) VALUES ('$food_name','$food_price')";
+    $sql = "INSERT INTO tasks (title,num) VALUES ('$food_name','$price')";
     $result = mysqli_query($conn, $sql);
 }else {
     echo 0;
