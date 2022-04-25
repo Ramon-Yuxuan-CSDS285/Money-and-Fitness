@@ -13,17 +13,26 @@
 </head>
 <body>
 	<div class="wrapper">
+		<a href="Budget/budget.html">Budget</a>
+		<br>
 		<h2 class="title">Calculate Daily Calorie Intake</h2>
+		<br>
 		<div class="inputFields">
 			<form>
 				<input type="text" id="name" placeholder="Enter your name">
-				<input type="number" id="height" placeholder="Enter your height">
-				<input type="number" id="weight" placeholder="Enter your weight">
+				<input type="number" id="height" placeholder="Enter your height (cm)">
+				<input type="number" id="weight" placeholder="Enter your weight (lbs)">
+				<input type="number" id="age" placeholder="Enter your age">
+				<select name="gender" id="gender">
+					<option value="Male">Male</option>
+					<option value="Female">Female</option>
+				</select>
 				<br>
 				<button type="submit" id="addBtn" class="btn">Submit</button>
 				<!-- <button type="submit" id="get" class = "btn" style="float:right; margin-left: 10%;">get weight and height</button> -->
 			</form>
 		</div>
+		<br>
 		<div id="metric">
 
 		</div>
@@ -48,11 +57,10 @@
 
 			</div>
 			<div id="erase">
-				<button type="reset" id="resetFoodList" class="btn">Delete</button>
+				<button type="reset" id="resetFoodList" class="btn">Clear List</button>
 			</div>
 		</div>
 	</div>
-	<a href="Budget/budget.html">Budget</a>
 	
 
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -90,6 +98,7 @@
 				var servings = $("#servings").val();
 				var typeOfFood = $("#typeOfFood").val();
 				var price = $("#price").val();
+				
 
 				$.ajax({
 					url: "add-food.php",
@@ -146,16 +155,20 @@
 				var weight = $("#weight").val();
 				var height = $("#height").val();
 				var name = $("#name").val();
+				var gender = $('#gender').val();
+				var age = $("#age").val();
 
 				$.ajax({
 					url: "add-metric.php",
 					type: "POST",
-					data: {weight : weight, height: height, name: name},
+					data: {weight : weight, height: height, name: name, gender: gender, age: age},
 					success: function(data) {
 						loadEverything();
 						$("#weight").val('');
 						$("#height").val('');
 						$("#name").val('');
+						$("#gender").val('');
+						$("#age").val('');
 						if (data == 0) {
 							alert("Something wrong went. Please try again.");
 						}
