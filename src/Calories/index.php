@@ -1,3 +1,6 @@
+<?php
+	session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +16,10 @@
 </head>
 <body>
 	<div class="wrapper">
-		<a href="Budget/budget.html">Budget</a>
+		<a href="../Budget/budget.html">Budget</a>
+		<p>
+			<a href="../logout.php">Log Out</a>
+		</p>
 		<br>
 		<h2 class="title">Calculate Daily Calorie Intake</h2>
 		<br>

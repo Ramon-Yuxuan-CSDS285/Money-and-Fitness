@@ -14,7 +14,7 @@ if (isset($_POST['submit'])) {
  
     if ($response['status'] == 'success') {
         $_SESSION['user'] = array('id' => $response['id'], 'fullname' => $response['fullname']);
-        header('Location: myaccount.php');
+        header('Location: Calories/index.php');
     }
  
     $error_message = ($response['status'] == 'error') ? $response['message'] : '';

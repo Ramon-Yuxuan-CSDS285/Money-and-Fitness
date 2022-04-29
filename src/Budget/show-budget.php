@@ -2,7 +2,11 @@
 
 include 'config.php';
 
-$sql = "SELECT * FROM tasks";
+session_start();
+
+$email = $_SESSION['user']['fullname'];
+
+$sql = "SELECT * FROM tasks WHERE email = '$email'";
 $result = mysqli_query($conn, $sql);
 $budgetTotal = 0;
 

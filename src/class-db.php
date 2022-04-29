@@ -3,7 +3,7 @@ class DB {
     private $dbHost     = "localhost";
     private $dbUsername = "root";
     private $dbPassword = "";
-    private $dbName     = "storage";
+    private $dbName     = "task_app";
  
     public function __construct() {
         if(!isset($this->db)){

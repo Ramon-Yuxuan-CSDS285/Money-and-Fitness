@@ -1,8 +1,10 @@
 <?php 
 
 include 'config.php';
+session_start();
 
-$sql = "SELECT * FROM food";
+$email = $_SESSION['user']['fullname'];
+$sql = "SELECT * FROM food WHERE email = '$email'";
 $result = mysqli_query($conn, $sql);
 
 

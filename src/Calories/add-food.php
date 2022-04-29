@@ -1,6 +1,7 @@
 <?php 
 
 include 'config.php';
+session_start();
 
 if (isset($_POST['food']) && isset($_POST['servings'])){
     $food = $_POST['food'];
@@ -79,7 +80,8 @@ if (isset($_POST['food']) && isset($_POST['servings'])){
     
 
     if ($food_name != "" && $food_calorie != 0){
-        $sql = "INSERT INTO food (foodName,calorie,protein,carb,fat,saturated_fat,servings) VALUES ('$food_name','$food_calorie','$food_protein','$food_carb','$food_fat','$food_sat','$servings')";
+        $email = $_SESSION['user']['fullname'];
+        $sql = "INSERT INTO food (foodName,calorie,protein,carb,fat,saturated_fat,servings, email) VALUES ('$food_name','$food_calorie','$food_protein','$food_carb','$food_fat','$food_sat','$servings','$email')";
         $result = mysqli_query($conn, $sql);
         if ($result) {
             echo 1;
@@ -90,7 +92,7 @@ if (isset($_POST['food']) && isset($_POST['servings'])){
     else {
         echo 0;
     }
-    $sql = "INSERT INTO tasks (title,num) VALUES ('$food_name','$price')";
+    $sql = "INSERT INTO tasks (title,num, email) VALUES ('$food_name','$price','$email')";
     $result = mysqli_query($conn, $sql);
 }else {
     echo 0;
